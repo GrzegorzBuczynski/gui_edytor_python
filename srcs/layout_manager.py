@@ -1,7 +1,7 @@
 # layout_manager.py
 from PyQt5.QtWidgets import QWidget, QSplitter, QMainWindow
 from PyQt5.QtCore import Qt
-from .tab_widget import DraggableTabWidget # Użyj kropki dla względnego importu
+from tab_widget import DraggableTabWidget # Użyj kropki dla względnego importu
 
 def find_widget_parent_splitter(widget):
     """ Znajduje najbliższy nadrzędny QSplitter dla danego widgetu. """

@@ -8,15 +8,14 @@ from PyQt5.QtCore import Qt, QPoint, pyqtSignal
 from functools import partial # Lepsze niż lambda dla slotów
 
 # Używamy względnych importów
-from .tab_widget import DraggableTabWidget, TAB_MIME_TYPE, DropIndicator
-from .layout_manager import split_widget, cleanup_empty_splitters, find_widget_parent_splitter
+from tab_widget import DraggableTabWidget, TAB_MIME_TYPE, DropIndicator
+from layout_manager import split_widget, cleanup_empty_splitters, find_widget_parent_splitter
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle('Edytor z Podziałem Paneli (Styl VS Code)')
         self.setGeometry(100, 100, 1200, 800)
-        # Akceptuj drop globalnie, aby móc przechwycić upuszczenie poza panelem
         self.setAcceptDrops(True)
 
         # Przechowuje dane o wszystkich zakładkach (widget treści, tytuł, unikalne ID)
@@ -32,23 +31,27 @@ class MainWindow(QMainWindow):
         self._dragged_tab_title_ref = ""
         self._source_tab_widget_ref = None # Skąd przeciągnięto
 
-        # Inicjalizacja - zaczynamy od jednego panelu
-        initial_tab_widget = DraggableTabWidget()
-        # Połącz sygnały D&D z naszego niestandardowego widgetu
-        # initial_tab_widget.tabDraggedOut.connect(self.handle_tab_drag_start) # Podłączymy dynamicznie
-        self.setCentralWidget(initial_tab_widget)
-        self.connect_tab_widget_signals(initial_tab_widget) # Podłącz sygnały
-
+        # --- PRZENIESIONA INICJALIZACJA ---
         # Wskaźnik upuszczania (jeden dla całego okna)
         self.drop_indicator = DropIndicator(self)
+        # ---------------------------------
+
+        # Inicjalizacja - zaczynamy od jednego panelu
+        initial_tab_widget = DraggableTabWidget()
+        self.setCentralWidget(initial_tab_widget)
+        self.connect_tab_widget_signals(initial_tab_widget) # Teraz `self.drop_indicator` już istnieje
+
+        # Tworzenie Menu
+        self.create_menu()
 
         # Dodanie początkowych zakładek
         self.add_new_tab(title="Zakładka 1", make_current=True)
         self.add_new_tab(title="Zakładka 2")
         self.add_new_tab(title="Zakładka 3")
+        self.add_new_tab(title="Zakładka 4")
+        self.add_new_tab(title="Zakładka 5")
 
-        # Tworzenie Menu
-        self.create_menu()
+    
 
     def get_unique_tab_id(self):
         """ Generuje unikalne ID dla zakładki. """

@@ -1,6 +1,6 @@
 # tab_widget.py
 from PyQt5.QtWidgets import QTabWidget, QApplication, QWidget
-from PyQt5.QtCore import Qt, QMimeData, QPoint, QRect
+from PyQt5.QtCore import Qt, QMimeData, QPoint, QRect, pyqtSignal
 from PyQt5.QtGui import QDrag, QPixmap, QPainter, QCursor
 
 # Unikalny typ MIME dla naszych zakładek
