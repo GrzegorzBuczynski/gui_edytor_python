@@ -1,0 +1,99 @@
+Tworzenie środowiska w folderze projektu
+Aby utworzyć środowisko w bieżącym katalogu projektu:
+python3 -m venv .venv
+
+Aby aktywować środowisko wirtualne utworzone przez python3 -m venv .venv, wykonaj następujące kroki:
+
+Najpierw musisz aktywować środowisko. W systemie Linux/Kubuntu użyj komendy:
+source .venv/bin/activate
+
+Po aktywacji, w linii poleceń pojawi się prefiks (.venv), wskazujący że środowisko jest aktywne.
+Teraz możesz instalować pakiety za pomocą pip bez błędu "externally-managed-environment":
+pip install pyqt5
+
+Aby później wyjść ze środowiska, wpisz:
+deactivate
+
+
+Jeśli chcesz uruchomić skrypt Pythona w tym środowisku:
+python twoj_skrypt.py
+Po aktywacji środowiska wszystkie polecenia python i pip będą korzystać z wersji zainstalowanej w tym środowisku, a nie systemowej.
+
+
+//////
+
+inna instalacja- inna wersja Pythona
+sudo apt install python3.10-venv python3.10
+python3.10 -m venv .venv
+source .venv/bin/activate
+pip install pyqt5 pyqt5-tools
+
+////
+
+python -m venv myenv
+source myenv/bin/activate
+pip install pyqt5 pyqt5-tools
+
+////
+
+Option 2: Use pyenv to install Python 3.10 easily
+pyenv lets you install any Python version locally without affecting the system.
+
+Install dependencies:
+
+bash
+Copy
+Edit
+sudo apt update
+sudo apt install -y make build-essential libssl-dev zlib1g-dev \
+  libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+  libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev
+Install pyenv:
+
+bash
+Copy
+Edit
+curl https://pyenv.run | bash
+Add pyenv to your shell: Add this to ~/.bashrc or ~/.zshrc:
+
+bash
+Copy
+Edit
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+Restart the terminal or source the file:
+
+bash
+Copy
+Edit
+source ~/.bashrc
+Install Python 3.10:
+
+bash
+Copy
+Edit
+pyenv install 3.10.13
+pyenv global 3.10.13
+Now typing:
+
+bash
+Copy
+Edit
+python --version
+will show Python 3.10.13 (for your user).
+
+👉 After that you can create a venv normally:
+
+bash
+Copy
+Edit
+python -m venv myenv
+source myenv/bin/activate
+pip install pyqt5 pyqt5-tools
+Quick Decision Guide:
+
+Situation	Best Option
+Ubuntu 22.04 or Debian 12	Add deadsnakes PPA
+Ubuntu 24.04+	Use pyenv
+Other distro	pyenv is safer
