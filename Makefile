@@ -63,7 +63,7 @@ help: ## Wyświetla tę pomoc
 requirements.txt:
 	touch requirements.txt
 	
-push:
+push: clean
 	git add .
 	git commit -m "Update"
 	git push
