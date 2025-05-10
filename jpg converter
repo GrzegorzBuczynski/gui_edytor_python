@@ -1,0 +1,45 @@
+from PIL import Image
+
+# Parametry
+input_path = "obraz.jpg"
+output_path = "ascii_art.txt"
+block_width = 10
+block_height = 14
+ascii_chars = "@%#*+=-:. "  # od ciemnego do jasnego
+
+def average_brightness(block):
+    """Zwraca średnią jasność bloku (0-255)"""
+    pixels = list(block.getdata())
+    return sum(pixels) / len(pixels)
+
+def brightness_to_ascii(brightness):
+    """Przekształca jasność do znaku ASCII"""
+    index = int(brightness / 255 * (len(ascii_chars) - 1))
+    return ascii_chars[index]
+
+def convert_to_ascii_blocks(input_path, output_path):
+    try:
+        image = Image.open(input_path).convert("L")  # skala szarości
+    except Exception as e:
+        print(f"Błąd otwierania pliku: {e}")
+        return
+
+    width, height = image.size
+    ascii_art = []
+
+    for y in range(0, height, block_height):
+        line = ""
+        for x in range(0, width, block_width):
+            box = (x, y, x + block_width, y + block_height)
+            block = image.crop(box)
+            brightness = average_brightness(block)
+            line += brightness_to_ascii(brightness)
+        ascii_art.append(line)
+
+    with open(output_path, "w") as f:
+        f.write("\n".join(ascii_art))
+
+    print(f"Zapisano ASCII art do: {output_path}")
+
+# Uruchomienie
+convert_to_ascii_blocks(input_path, output_path)
